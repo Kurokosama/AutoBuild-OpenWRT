@@ -2,7 +2,7 @@
 
 # AutoBuild-OpenWrt
 
-~~以下是代码白嫖列表~~
+~~以下是代码白嫖列表:~~ <br>
 Build OpenWrt firware [Lean's OpenWRT](https://github.com/coolsnowwolf/lede) using GitHub Actions  
 Hereby thank P3TERX for his amazing job: https://github.com/P3TERX/Actions-OpenWrt/ <br>
 Hereby thank esirplayground for his amazing job: https://github.com/esirplayground/AutoBuild-OpenWrt
