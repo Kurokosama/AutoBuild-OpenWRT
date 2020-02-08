@@ -9,7 +9,6 @@ Hereby thank esirplayground for his amazing job: https://github.com/esirplaygrou
 
 ## Usage
 
-- Sign up for [GitHub Actions](https://github.com/features/actions/signup)
 - Fork [this GitHub repository](https://github.com/esirplayground/AutoBuild-OpenWrt)
 - Click [.github/workflows] folder on the top of repo and you could see few workflow files, Each for one particular architecture(device).
 - Edit the workflow file you desire，uncomment push section 3 lines together and submit the commit.(Other 2 methods wait you to discover)
