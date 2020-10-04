@@ -5,7 +5,8 @@
 ~~以下是代码白嫖列表:~~ <br>
 Build OpenWrt firware [Lean's OpenWRT](https://github.com/coolsnowwolf/lede) using GitHub Actions  
 Hereby thank P3TERX for his amazing job: https://github.com/P3TERX/Actions-OpenWrt/ <br>
-Hereby thank esirplayground for his amazing job: https://github.com/esirplayground/AutoBuild-OpenWrt
+Hereby thank esirplayground for his amazing job: https://github.com/esirplayground/AutoBuild-OpenWrt <br>
+插件情况点击此链接： https://cn.jwtechtips.top/archives/72 <br>
 
 ## Usage
 
@@ -14,9 +15,3 @@ Hereby thank esirplayground for his amazing job: https://github.com/esirplaygrou
 - Edit the workflow file you desire，uncomment push section 3 lines together and submit the commit.(Other 2 methods wait you to discover)
 - The build starts automatically. Progress can be viewed on the Actions page.
 - When the build is complete, click the `Artifacts` button in the upper right corner of the Actions page to download the binaries.
-
-
-
-
-
-
