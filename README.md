@@ -16,4 +16,5 @@ Hereby thank esirplayground for his amazing job: https://github.com/esirplaygrou
 - Click "Build_x86_64" on the left side workflows menu.
 - Click "Run workflow" green button, then wait for few hours to build firmware.
 - When the build is complete, you can download firmware from "Artifacts" or Github Release page.
+<br>
 ![Screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/28e159a4c7bce2e53bb2818fc8b5323ec2403103/screenshot.png)
