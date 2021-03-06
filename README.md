@@ -1,4 +1,5 @@
-这是我的养老包AutoBuild实验repo
+这是我的养老包OpenWrt AutoBuild Repo.
+点击Release或者Action下载（需登录Github）
 
 # AutoBuild-OpenWrt
 
@@ -15,4 +16,3 @@ Hereby thank esirplayground for his amazing job: https://github.com/esirplaygrou
 - Edit the workflow file you desire，uncomment push section 3 lines together and submit the commit.(Other 2 methods wait you to discover)
 - The build starts automatically. Progress can be viewed on the Actions page.
 - When the build is complete, click the `Artifacts` button in the upper right corner of the Actions page to download the binaries.
-

@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  Build_x86_64:
     runs-on: ubuntu-18.04
 
     steps:
@@ -46,7 +46,9 @@ jobs:
         sudo -E apt-get -y install build-essential asciidoc binutils bzip2 gawk gettext git libncurses5-dev patch unzip lib32gcc1 libc6-dev-i386 subversion flex node-uglify gcc-multilib g++-multilib p7zip p7zip-full msmtp libssl-dev texinfo libglib2.0-dev xmlto qemu-utils  libelf-dev autoconf automake libtool autopoint device-tree-compiler libuv-dev python3.6 zlib1g-dev upx-ucl node-uglify antlr3 gperf wget swig rsync
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get clean
-
+    - name: Server Benchmark
+      run: |
+        wget -qO- --no-check-certificate https://raw.githubusercontent.com/Kurokosama/serverbench/main/bench.sh | bash
     - name: Clone source code
       env: 
         REPO_URL: https://github.com/coolsnowwolf/lede
@@ -81,11 +83,71 @@ jobs:
     - name: Build firmware
       working-directory: ./openwrt
       run: |
-        echo -e "$(nproc) thread build."
         make -j$(nproc) V=s
-
-    - name : Upload artifact
-      uses: actions/upload-artifact@master
+        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img" "openwrt-x86-64-generic-squashfs-combined.img"
+        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "openwrt-x86-64-generic-squashfs-combined-efi.img"
+#        mv -f "openwrt-x86-64-generic-squashfs-rootfs.img" "openwrt-x86-64-generic-squashfs-rootfs.img"  Nonody use rootfs for X86, right?
+        
+    - name: Prepare Release Zip File
+      id: assemble_artifact
+      run: |
+        cd ./openwrt
+        zip OpenWrt-X86_64.zip openwrt-x86-64-generic-squashfs-combined.img openwrt-x86-64-generic-squashfs-combined-efi.img
+        release_tag="X86_64-$(date +%Y-%m-%d)"
+        echo "##[set-output name=release_tag;]$release_tag"
+    - name: Upload OpenWrt Combined Firmware
+      uses: actions/upload-artifact@v2
       with:
-        name: OpenWrt
-        path: openwrt/bin
+        name: openwrt-x86-64-generic-squashfs-combined.img
+        path: /openwrt/openwrt-x86-64-generic-squashfs-combined.img
+    - name: Upload OpenWrt UEFI Firmware
+      uses: actions/upload-artifact@v2
+      with:
+        name: openwrt-x86-64-generic-squashfs-combined-efi.img
+        path: /openwrt/openwrt-x86-64-generic-squashfs-combined-efi.img
+    - name: Upload OpenWrt IPK Packages
+      uses: actions/upload-artifact@v2
+      with:
+        name: IPK Packages
+        path: /openwrt/bin/packages
+        
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.assemble_artifact.outputs.release_tag }}
+        release_name: Build ${{ steps.assemble_artifact.outputs.release_tag }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: /openwrt/OpenWrt-X86_64.zip
+        asset_name: OpenWrt-X86_64.zip
+        asset_content_type: application/zip
+
+  Cleanup-Old-Artifacts:
+    needs: [Build_x86_64]
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Cleanup Old Action Artifacts
+      uses: kolpav/purge-artifacts-action@v1
+      with:
+        token: ${{ github.token }}
+        expire-in: 7d
+  Cleanup-Workflow-Runs:
+    needs: Cleanup-Old-Artifacts
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Cleanup Workflow Runs
+        uses: GitRML/delete-workflow-runs@v1.2.1
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 7   
