@@ -1,7 +1,7 @@
-这是我的养老包OpenWrt AutoBuild Repo.
-点击Release或者Action下载（需登录Github）
-
 # AutoBuild-OpenWrt
+
+这是我的养老包OpenWrt AutoBuild Repo (x86_64架构专用). <br>
+点击Release或者Action下载（需登录Github）
 
 ~~以下是代码白嫖列表:~~ <br>
 Build OpenWrt firware [Lean's OpenWRT](https://github.com/coolsnowwolf/lede) using GitHub Actions  
@@ -11,8 +11,9 @@ Hereby thank esirplayground for his amazing job: https://github.com/esirplaygrou
 
 ## Usage
 
-- Fork [this GitHub repository](https://github.com/esirplayground/AutoBuild-OpenWrt)
-- Click [.github/workflows] folder on the top of repo and you could see few workflow files, Each for one particular architecture(device).
-- Edit the workflow file you desire，uncomment push section 3 lines together and submit the commit.(Other 2 methods wait you to discover)
-- The build starts automatically. Progress can be viewed on the Actions page.
-- When the build is complete, click the `Artifacts` button in the upper right corner of the Actions page to download the binaries.
+- Fork [this GitHub repository](https://github.com/Kurokosama/AutoBuild-OpenWRT).
+- Click Action on the top menu.
+- Click "Build_x86_64" on the left side workflows menu.
+- Click "Run workflow" green button, then wait for few hours to build firmware.
+- When the build is complete, you can download firmware from "Artifacts" or Github Release page.
+![Screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/fe66c0f580b9f9a52fa7c138537c26b000ae8c17/screenshot.png)
