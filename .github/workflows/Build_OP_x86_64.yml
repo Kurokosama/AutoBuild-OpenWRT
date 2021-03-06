@@ -1,10 +1,3 @@
-#=================================================
-# Description: Build OpenWrt using GitHub Actions
-# Lisence: MIT
-# Author: eSirPlayground
-# Youtube Channel: https://goo.gl/fvkdwm 
-#=================================================
-
 name: Build_x86_64
 
 on: 
@@ -132,22 +125,22 @@ jobs:
         asset_name: OpenWrt-X86_64.zip
         asset_content_type: application/zip
 
-  Cleanup-Old-Artifacts:
-    needs: [Build_x86_64]
-    runs-on: ubuntu-18.04
-    steps:
-    - name: Cleanup Old Action Artifacts
-      uses: kolpav/purge-artifacts-action@v1
-      with:
-        token: ${{ github.token }}
-        expire-in: 7d
-  Cleanup-Workflow-Runs:
-    needs: Cleanup-Old-Artifacts
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Cleanup Workflow Runs
-        uses: GitRML/delete-workflow-runs@v1.2.1
-        with:
-          token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          retain_days: 7   
+#  Cleanup-Old-Artifacts:
+#    needs: [Build_x86_64]
+#    runs-on: ubuntu-18.04
+#    steps:
+#    - name: Cleanup Old Action Artifacts
+#      uses: kolpav/purge-artifacts-action@v1
+#      with:
+#        token: ${{ github.token }}
+#        expire-in: 7d
+#  Cleanup-Workflow-Runs:
+#    needs: Cleanup-Old-Artifacts
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - name: Cleanup Workflow Runs
+#        uses: GitRML/delete-workflow-runs@v1.2.1
+#        with:
+#          token: ${{ github.token }}
+#          repository: ${{ github.repository }}
+#          retain_days: 7   
