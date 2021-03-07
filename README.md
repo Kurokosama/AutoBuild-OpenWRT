@@ -1,7 +1,8 @@
 # AutoBuild-OpenWrt
 
 这是我的养老包OpenWrt AutoBuild Repo (x86_64架构专用). <br>
-点击Release或者Action下载（需登录Github）
+点击Release或者Action下载（需登录Github）<br>
+If you need OpenWrt for NanoPi R2S/R4S, checkout [this GitHub repository](https://github.com/Kurokosama/Nanopi-R2S-R4S-OpenWrt).
 
 ~~以下是代码白嫖列表:~~ <br>
 Build OpenWrt firware [Lean's OpenWRT](https://github.com/coolsnowwolf/lede) using GitHub Actions  
