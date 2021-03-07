@@ -76,7 +76,7 @@ jobs:
     - name: Build firmware
       working-directory: ./openwrt
       run: |
-        make -j$(nproc)
+        make -j$(nproc) V=s
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img" "openwrt-x86-64-generic-squashfs-combined.img"
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "openwrt-x86-64-generic-squashfs-combined-efi.img"
 #        mv -f "openwrt-x86-64-generic-squashfs-rootfs.img" "openwrt-x86-64-generic-squashfs-rootfs.img"  Nonody use rootfs for X86, right?
