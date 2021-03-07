@@ -95,7 +95,7 @@ jobs:
       with:
         name: IPK Packages
         path: /openwrt/bin/packages
-     - name: Prepare Release Zip File
+    - name: Prepare Release Zip File
       working-directory: ./openwrt
       id: assemble_artifact
       run: |
