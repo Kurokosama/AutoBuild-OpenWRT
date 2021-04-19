@@ -47,58 +47,48 @@ jobs:
         REPO_URL: https://github.com/coolsnowwolf/lede
         REPO_BRANCH: master
       run: |
+        cd "/home/runner"
         git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
-        cd openwrt
+        sudo chown -R runner:runner "openwrt"
+        cd "/home/runner/openwrt"
         sed -i '11s/#//' feeds.conf.default
-
-    - name: Update & Install feeds
-      working-directory: ./openwrt
-      run: |
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        ./scripts/feeds install -a
 
-    - name: Configuration Customization - Build_x86_64
-      env:
-        CONFIG_FILE: 'x86_64.config'
+    - name: Build_x86_64
       run: |
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        cd "/home/runner/openwrt"
+        cp -f "${GITHUB_WORKSPACE}/configs/x86_64.config" ".config"
         chmod +x ./customize.sh && ./customize.sh
-        cd openwrt && make defconfig
-        
-    - name: Download package
-      working-directory: ./openwrt
-      run: |
-        make download -j$(nproc)
-        find dl -size -1024c -exec ls -l {} \;
-        find dl -size -1024c -exec rm -f {} \;
+        make defconfig
+        make -j$[$(nproc)+1]
 
-    - name: Build firmware
-      working-directory: ./openwrt
+    - name: Prepare Files
       run: |
-        make -j$(nproc) V=s
-        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img" "openwrt-x86-64-generic-squashfs-combined.img"
-        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "openwrt-x86-64-generic-squashfs-combined-efi.img"
-#        mv -f "openwrt-x86-64-generic-squashfs-rootfs.img" "openwrt-x86-64-generic-squashfs-rootfs.img"  Nonody use rootfs for X86, right?
+        cd "/home/runner/openwrt"
+        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img" "../openwrt-x86-64-generic-squashfs-combined.img"
+        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "../openwrt-x86-64-generic-squashfs-combined-efi.img"
+#        mv -f "openwrt-x86-64-generic-squashfs-rootfs.img" "../openwrt-x86-64-generic-squashfs-rootfs.img"  Nonody use rootfs for X86, right?
     - name: Upload OpenWrt Combined Firmware
       uses: actions/upload-artifact@v2
       with:
         name: openwrt-x86-64-generic-squashfs-combined.img
-        path: /openwrt/openwrt-x86-64-generic-squashfs-combined.img
+        path: /home/runner/openwrt-x86-64-generic-squashfs-combined.img
     - name: Upload OpenWrt UEFI Firmware
       uses: actions/upload-artifact@v2
       with:
         name: openwrt-x86-64-generic-squashfs-combined-efi.img
-        path: /openwrt/openwrt-x86-64-generic-squashfs-combined-efi.img
+        path: /home/runner/openwrt-x86-64-generic-squashfs-combined-efi.img
     - name: Upload OpenWrt IPK Packages
       uses: actions/upload-artifact@v2
       with:
         name: IPK Packages
-        path: /openwrt/bin/packages
+        path: /home/runner/bin/packages
     - name: Prepare Release Zip File
       working-directory: ./openwrt
       id: assemble_artifact
       run: |
+        cd "/home/runner"
         zip OpenWrt-X86_64.zip openwrt-x86-64-generic-squashfs-combined.img openwrt-x86-64-generic-squashfs-combined-efi.img
         release_tag="X86_64-$(date +%Y-%m-%d)"
         echo "##[set-output name=release_tag;]$release_tag"    
@@ -119,7 +109,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /openwrt/OpenWrt-X86_64.zip
+        asset_path: /home/runner/OpenWrt-X86_64.zip
         asset_name: OpenWrt-X86_64.zip
         asset_content_type: application/zip
 
