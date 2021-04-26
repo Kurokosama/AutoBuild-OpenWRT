@@ -69,21 +69,21 @@ jobs:
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined.img" "../openwrt-x86-64-generic-squashfs-combined.img"
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "../openwrt-x86-64-generic-squashfs-combined-efi.img"
 #        mv -f "openwrt-x86-64-generic-squashfs-rootfs.img" "../openwrt-x86-64-generic-squashfs-rootfs.img"  Nonody use rootfs for X86, right?
-    - name: Upload OpenWrt Combined Firmware
-      uses: actions/upload-artifact@v2
-      with:
-        name: openwrt-x86-64-generic-squashfs-combined.img
-        path: /home/runner/openwrt-x86-64-generic-squashfs-combined.img
-    - name: Upload OpenWrt UEFI Firmware
-      uses: actions/upload-artifact@v2
-      with:
-        name: openwrt-x86-64-generic-squashfs-combined-efi.img
-        path: /home/runner/openwrt-x86-64-generic-squashfs-combined-efi.img
-    - name: Upload OpenWrt IPK Packages
-      uses: actions/upload-artifact@v2
-      with:
-        name: IPK Packages
-        path: /home/runner/bin/packages
+#    - name: Upload OpenWrt Combined Firmware
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: openwrt-x86-64-generic-squashfs-combined.img
+#        path: /home/runner/openwrt-x86-64-generic-squashfs-combined.img
+#    - name: Upload OpenWrt UEFI Firmware
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: openwrt-x86-64-generic-squashfs-combined-efi.img
+#        path: /home/runner/openwrt-x86-64-generic-squashfs-combined-efi.img
+#    - name: Upload OpenWrt IPK Packages
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: IPK Packages
+#        path: /home/runner/bin/packages
     - name: Prepare Release Zip File
       working-directory: ./openwrt
       id: assemble_artifact
@@ -92,6 +92,11 @@ jobs:
         zip OpenWrt-X86_64.zip openwrt-x86-64-generic-squashfs-combined.img openwrt-x86-64-generic-squashfs-combined-efi.img
         release_tag="X86_64-$(date +%Y-%m-%d)"
         echo "##[set-output name=release_tag;]$release_tag"    
+    - name: Upload OpenWrt Firmware
+      uses: actions/upload-artifact@v2
+      with:
+        name: openwrt-x86-64-generic-squashfs-combined.img
+        path: /home/runner/OpenWrt-X86_64.zip
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
