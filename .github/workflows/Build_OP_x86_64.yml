@@ -85,7 +85,7 @@ jobs:
 #        name: IPK Packages
 #        path: /home/runner/bin/packages
     - name: Prepare Release Zip File
-#      working-directory: ./openwrt
+#      working-directory: ./home/runner
       id: assemble_artifact
       run: |
         cd "/home/runner"
@@ -113,10 +113,10 @@ jobs:
         asset_name: OpenWrt-X86_64.zip
         asset_content_type: application/zip
     - name: Upload OpenWrt Firmware
-          uses: actions/upload-artifact@v2
-          with:
-            name: openwrt-x86-64-generic-squashfs-combined.img
-            path: /home/runner/OpenWrt-X86_64.zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: openwrt-x86-64-generic-squashfs-combined.img
+        path: /home/runner/OpenWrt-X86_64.zip
 
 #  Cleanup-Old-Artifacts:
 #    needs: [Build_x86_64]
