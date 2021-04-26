@@ -85,18 +85,13 @@ jobs:
 #        name: IPK Packages
 #        path: /home/runner/bin/packages
     - name: Prepare Release Zip File
-      working-directory: ./openwrt
+#      working-directory: ./openwrt
       id: assemble_artifact
       run: |
         cd "/home/runner"
         zip OpenWrt-X86_64.zip openwrt-x86-64-generic-squashfs-combined.img openwrt-x86-64-generic-squashfs-combined-efi.img
         release_tag="X86_64-$(date +%Y-%m-%d)"
         echo "##[set-output name=release_tag;]$release_tag"    
-    - name: Upload OpenWrt Firmware
-      uses: actions/upload-artifact@v2
-      with:
-        name: openwrt-x86-64-generic-squashfs-combined.img
-        path: /home/runner/OpenWrt-X86_64.zip
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -117,6 +112,11 @@ jobs:
         asset_path: /home/runner/OpenWrt-X86_64.zip
         asset_name: OpenWrt-X86_64.zip
         asset_content_type: application/zip
+    - name: Upload OpenWrt Firmware
+          uses: actions/upload-artifact@v2
+          with:
+            name: openwrt-x86-64-generic-squashfs-combined.img
+            path: /home/runner/OpenWrt-X86_64.zip
 
 #  Cleanup-Old-Artifacts:
 #    needs: [Build_x86_64]
