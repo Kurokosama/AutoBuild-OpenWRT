@@ -52,9 +52,9 @@ jobs:
         sudo chown -R runner:runner "openwrt"
         cd "/home/runner/openwrt"
         echo "src-git ssrp https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
-        "./scripts/feeds update -a"
-        "./scripts/feeds install -a"
-
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        ./scripts/feeds install -a
     - name: Build OpenWrt
       run: |
         cd "/home/runner/openwrt"
