@@ -35,10 +35,13 @@ jobs:
         cd "/home/runner/openwrt"
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        ./scripts/feeds install -a
     - name: Build OpenWrt
+      env:
+        CONFIG_FILE: '/configs/r2s.config'
       run: |
         cd "/home/runner/openwrt"
-        cp -f "${GITHUB_WORKSPACE}/configs/r2s.config" ".config"
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE .config
 #       chmod +x ./customize.sh && ./customize.sh
         make defconfig
         make -j$[$(nproc)+1]

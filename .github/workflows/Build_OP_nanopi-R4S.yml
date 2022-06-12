@@ -33,11 +33,15 @@ jobs:
         git clone --branch "openwrt-18.06-k5.4" --single-branch "https://github.com/immortalwrt/immortalwrt" "openwrt"
         sudo chown -R runner:runner "openwrt"
         cd "/home/runner/openwrt"
-        ./scripts/feeds update -a && ./scripts/feeds install -a
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+        ./scripts/feeds install -a
     - name: Build OpenWrt
+      env:
+        CONFIG_FILE: '/configs/r4s.config'
       run: |
         cd "/home/runner/openwrt"
-        cp -f "${GITHUB_WORKSPACE}/configs/r4s.config" ".config"
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE .config
 #       chmod +x ./customize.sh && ./customize.sh
         make defconfig
         make -j$[$(nproc)+1]

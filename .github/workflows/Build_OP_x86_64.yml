@@ -54,11 +54,12 @@ jobs:
         echo "src-git ssrp https://github.com/fw876/helloworld.git" >> ./feeds.conf.default
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-        ./scripts/feeds install -a
     - name: Build OpenWrt
+      env:
+        CONFIG_FILE: '/configs/x86_64.config'
       run: |
         cd "/home/runner/openwrt"
-        cp -f "${GITHUB_WORKSPACE}/configs/x86_64.config" ".config"
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE .config
 #       chmod +x ./customize.sh && ./customize.sh
         make defconfig
         make -j$[$(nproc)+1]
