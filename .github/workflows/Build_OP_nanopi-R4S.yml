@@ -1,4 +1,4 @@
-name: NanoPi_R4S_OpenWrt
+name: OpenWrt_NanoPi_R4S
 on: 
   repository_dispatch:
   workflow_dispatch:
