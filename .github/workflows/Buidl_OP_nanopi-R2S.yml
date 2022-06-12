@@ -1,0 +1,83 @@
+name: NanoPi_R2S_OpenWrt
+on: 
+  repository_dispatch:
+  workflow_dispatch:
+
+jobs:
+  OpenWrt-R2S:
+    runs-on: ubuntu-18.04
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Init Building Dependencies
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        docker rmi $(docker images -q)
+        sudo -E apt-get remove -y --purge azure-cli ghc zulu* hhvm llvm* firefox google* dotnet* powershell mysql* php* mssql-tools msodbcsql17 android*
+        sudo -E apt-get update -y
+        sudo -E apt-get full-upgrade -y
+        sudo -E apt-get install -y build-essential asciidoc binutils bzip2 coreutils gawk gettext git libncurses5-dev libz-dev patch unzip zlib1g-dev lib32gcc1 libc6-dev-i386 subversion flex uglifyjs git-core gcc-8 gcc++-8 gcc-8-multilib g++-8-multilib p7zip p7zip-full msmtp libssl-dev texinfo libreadline-dev libglib2.0-dev xmlto qemu-utils upx libelf-dev autoconf automake libtool autopoint ccache curl wget vim nano python python3 python-pip python3-pip python-ply python3-ply haveged lrzsz device-tree-compiler scons antlr3 gperf ecj fastjar re2c xz-utils tar
+        for i in $(ls /usr/bin/*-8); do sudo -E ln -sf $i ${i%%-8*}; done
+        sudo -E ln -sf /usr/include/asm-generic /usr/include/asm
+        sudo -E apt-get autoremove -y --purge
+        sudo -E apt-get clean -y
+        sudo -E swapoff -a
+        sudo -E rm -rf /usr/share/dotnet /etc/mysql /etc/php /usr/local/lib/android /opt/ghc /swapfile
+    - name: Server Benchmark
+      run: |
+        wget -qO- --no-check-certificate https://raw.githubusercontent.com/Kurokosama/serverbench/main/bench.sh | bash
+    - name: Clone Source
+      run: |
+        cd "/home/runner"
+        git clone --branch "openwrt-18.06-k5.4" --single-branch "https://github.com/immortalwrt/immortalwrt" "openwrt"
+        sudo chown -R runner:runner "openwrt"
+        cd "/home/runner/openwrt"
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+    - name: Build OpenWrt
+      run: |
+        cd "/home/runner/openwrt"
+        cp -f "${GITHUB_WORKSPACE}/configs/r2s.config" ".config"
+#        chmod +x ./customize.sh && ./customize.sh     (Uncomment it to unable customize options.)
+        make defconfig
+        make -j$[$(nproc)+1]
+        
+    - name: Moving Files
+      run: |
+        cd "/home/runner/openwrt"
+        mv -f "bin/targets/rockchip/armv8/immortalwrt-rockchip-armv8-friendlyarm_nanopi-R2S-ext4-sysupgrade.img.gz" "../immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-ext4-sysupgrade.img.gz"
+        mv -f "bin/targets/rockchip/armv8/immortalwrt-rockchip-armv8-friendlyarm_nanopi-R2S-squashfs-sysupgrade.img.gz" "../immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-squashfs-sysupgrade.img.gz"
+    
+    - name: Prepare Release Zip File
+      id: assemble_artifact
+      run: |
+        cd "/home/runner"
+        zip OpenWrt-R2S.zip immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-ext4-sysupgrade.img.gz immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-squashfs-sysupgrade.img.gz
+        release_tag="R2S-$(date +%Y-%m-%d)"
+        echo "##[set-output name=release_tag;]$release_tag"
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.assemble_artifact.outputs.release_tag }}
+        release_name: OpenWrt ${{ steps.assemble_artifact.outputs.release_tag }}
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      id: upload-release-asset 
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: /home/runner/OpenWrt-R2S.zip
+        asset_name: OpenWrt-R2S.zip
+        asset_content_type: application/zip
+    - name : Upload Artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt(Download This or Go to Release Page)
+        path: /home/runner/OpenWrt-R2S.zip
