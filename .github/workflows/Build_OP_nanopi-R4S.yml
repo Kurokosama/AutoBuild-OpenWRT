@@ -1,10 +1,10 @@
-name: NanoPi_R2S_OpenWrt
+name: NanoPi_R4S_OpenWrt
 on: 
   repository_dispatch:
   workflow_dispatch:
 
 jobs:
-  OpenWrt-R2S:
+  build:
     runs-on: ubuntu-18.04
     steps:
     - name: Checkout Repository
@@ -33,28 +33,27 @@ jobs:
         git clone --branch "openwrt-18.06-k5.4" --single-branch "https://github.com/immortalwrt/immortalwrt" "openwrt"
         sudo chown -R runner:runner "openwrt"
         cd "/home/runner/openwrt"
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+        ./scripts/feeds update -a && ./scripts/feeds install -a
     - name: Build OpenWrt
       run: |
         cd "/home/runner/openwrt"
-        cp -f "${GITHUB_WORKSPACE}/configs/r2s.config" ".config"
-#        chmod +x ./customize.sh && ./customize.sh     (Uncomment it to unable customize options.)
+        cp -f "${GITHUB_WORKSPACE}/configs/r4s.config" ".config"
+#       chmod +x ./customize.sh && ./customize.sh     (Uncomment it to unable customize options.)
         make defconfig
         make -j$[$(nproc)+1]
         
     - name: Moving Files
       run: |
         cd "/home/runner/openwrt"
-        mv -f "bin/targets/rockchip/armv8/immortalwrt-rockchip-armv8-friendlyarm_nanopi-R2S-ext4-sysupgrade.img.gz" "../immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-ext4-sysupgrade.img.gz"
-        mv -f "bin/targets/rockchip/armv8/immortalwrt-rockchip-armv8-friendlyarm_nanopi-R2S-squashfs-sysupgrade.img.gz" "../immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-squashfs-sysupgrade.img.gz"
+        mv -f "bin/targets/rockchip/armv8/immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz" "../immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz"
+        mv -f "bin/targets/rockchip/armv8/immortalwrt-rockchip-armv8-friendlyarm_nanopi-r4s-squashfs-sysupgrade.img.gz" "../immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-r4s-squashfs-sysupgrade.img.gz"
     
     - name: Prepare Release Zip File
       id: assemble_artifact
       run: |
         cd "/home/runner"
-        zip OpenWrt-R2S.zip immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-ext4-sysupgrade.img.gz immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-R2S-squashfs-sysupgrade.img.gz
-        release_tag="R2S-$(date +%Y-%m-%d)"
+        zip OpenWrt-R4S.zip immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-r4s-ext4-sysupgrade.img.gz immortalwrt-18.06-rockchip-armv8-friendlyarm_nanopi-r4s-squashfs-sysupgrade.img.gz
+        release_tag="R4S-$(date +%Y-%m-%d)"
         echo "##[set-output name=release_tag;]$release_tag"
     - name: Create Release
       id: create_release
@@ -73,11 +72,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: /home/runner/OpenWrt-R2S.zip
-        asset_name: OpenWrt-R2S.zip
+        asset_path: /home/runner/OpenWrt-R4S.zip
+        asset_name: OpenWrt-R4S.zip
         asset_content_type: application/zip
     - name : Upload Artifact
       uses: actions/upload-artifact@master
       with:
         name: OpenWrt(Download This or Go to Release Page)
-        path: /home/runner/OpenWrt-R2S.zip
+        path: /home/runner/OpenWrt-R4S.zip

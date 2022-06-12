@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  Build_x86_64:
+  build:
     runs-on: ubuntu-18.04
 
     steps:
@@ -59,7 +59,7 @@ jobs:
       run: |
         cd "/home/runner/openwrt"
         cp -f "${GITHUB_WORKSPACE}/configs/x86_64.config" ".config"
-#        chmod +x ./customize.sh && ./customize.sh     Uncomment it to unable customize options.
+#       chmod +x ./customize.sh && ./customize.sh     Uncomment it to unable customize options.
         make defconfig
         make -j$[$(nproc)+1]
 
@@ -68,7 +68,7 @@ jobs:
         cd "/home/runner/openwrt"
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "../openwrt-x86-64-generic-squashfs-combined-efi.img"
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.vmdk" "../openwrt-x86-64-generic-squashfs-combined-efi.vmdk"
-#        mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-rootfs.img" "../openwrt-x86-64-generic-squashfs-rootfs.img"
+#       mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-rootfs.img" "../openwrt-x86-64-generic-squashfs-rootfs.img"
 
     - name: Prepare Release Zip File
       id: assemble_artifact
