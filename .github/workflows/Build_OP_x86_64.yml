@@ -55,8 +55,7 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
         ./scripts/feeds install -a
-
-    - name: Build_x86_64
+    - name: Build OpenWrt
       run: |
         cd "/home/runner/openwrt"
         cp -f "${GITHUB_WORKSPACE}/configs/x86_64.config" ".config"

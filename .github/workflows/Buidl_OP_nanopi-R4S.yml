@@ -35,7 +35,7 @@ jobs:
         cd "/home/runner/openwrt"
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-    - name: Build OpenWrt-R4S
+    - name: Build OpenWrt
       run: |
         cd "/home/runner/openwrt"
         cp -f "${GITHUB_WORKSPACE}/configs/r4s.config" ".config"
