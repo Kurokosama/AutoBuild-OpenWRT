@@ -38,7 +38,6 @@ jobs:
       run: |
         cd "/home/runner/openwrt"
         cp -f "${GITHUB_WORKSPACE}/configs/r4s.config" ".config"
-#       chmod +x ./customize.sh && ./customize.sh
         make defconfig
         make -j$[$(nproc)+1]
         

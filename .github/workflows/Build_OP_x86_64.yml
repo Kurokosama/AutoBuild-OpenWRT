@@ -59,17 +59,13 @@ jobs:
       run: |
         cd "/home/runner/openwrt"
         cp -f "${GITHUB_WORKSPACE}/configs/x86_64.config" ".config"
-#       chmod +x ./customize.sh && ./customize.sh
         make defconfig
         make -j$[$(nproc)+1]
-
     - name: Moving Files
       run: |
         cd "/home/runner/openwrt"
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.img" "../openwrt-x86-64-generic-squashfs-combined-efi.img"
         mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-combined-efi.vmdk" "../openwrt-x86-64-generic-squashfs-combined-efi.vmdk"
-#       mv -f "bin/targets/x86/64/openwrt-x86-64-generic-squashfs-rootfs.img" "../openwrt-x86-64-generic-squashfs-rootfs.img"
-
     - name: Prepare Release Zip File
       id: assemble_artifact
       run: |
@@ -102,27 +98,3 @@ jobs:
       with:
         name: OpenWrt(Download This or Go to Release Page)
         path: /home/runner/OpenWrt-X86_64.zip
-
-
-
-
-
-#  Cleanup-Old-Artifacts:
-#    needs: [Build_x86_64]
-#    runs-on: ubuntu-18.04
-#    steps:
-#    - name: Cleanup Old Action Artifacts
-#      uses: kolpav/purge-artifacts-action@v1
-#      with:
-#        token: ${{ github.token }}
-#        expire-in: 7d
-#  Cleanup-Workflow-Runs:
-#    needs: Cleanup-Old-Artifacts
-#    runs-on: ubuntu-18.04
-#    steps:
-#      - name: Cleanup Workflow Runs
-#        uses: GitRML/delete-workflow-runs@v1.2.1
-#        with:
-#          token: ${{ github.token }}
-#          repository: ${{ github.repository }}
-#          retain_days: 7   
