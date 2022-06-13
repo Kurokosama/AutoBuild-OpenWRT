@@ -15,7 +15,7 @@ Firmware Screenshot: <br>
 - Click "Run workflow" green button, then wait for few hours to build firmware.
 - When the build is complete, you can download firmware from "Artifacts" or Github Release page.
 <br>
-<img src="https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/50cc2fff6fd6b66e62df639ad7bfcde3cef6f945/images/screenshot.png?raw=true" alt="Workflow Screenshot" style="width:730px;border:1px solid #000;">
+<img src="https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/50cc2fff6fd6b66e62df639ad7bfcde3cef6f945/images/screenshot.png?raw=true" alt="Workflow Screenshot" style="width:730px;border:1px solid black;">
 <br>
 
 ## What are NanoPi R2S and R4S?
