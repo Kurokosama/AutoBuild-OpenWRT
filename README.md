@@ -1,5 +1,5 @@
 # OpenWrt Firmware build by Github Action
-#### ⚠ WARNING: USE IT UNDER YOUR OWN RISK.
+#### ⚠ WARNING: USE IT AT YOUR OWN RISK.
 #### ⚠ Non-profit Uses Only / 仅供个人学习使用.
 - - -
 My personal customized OpenWrt firmware auto build and release by using Github Action. <br>
