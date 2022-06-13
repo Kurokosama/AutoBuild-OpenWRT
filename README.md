@@ -7,7 +7,7 @@ Default login address is [192.168.1.1](192.168.1.1), username / password: `root`
 Please change the login password **as soon as possible** once you logined.
 - - -
 Firmware Screenshot: <br>
-![Screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/0c5a07e76c86befc7d97cd0f488ec5cc515850f5/images/screenshot.png)
+![openwrt-screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/143bd88c85c755f9811aa03e8a575ee41a505d59/images/openwrt-screenshot.png)
 
 ## Usage
 - Fork [this GitHub repository](https://github.com/Kurokosama/AutoBuild-OpenWRT).
@@ -16,7 +16,7 @@ Firmware Screenshot: <br>
 - Click "Run workflow" green button, then wait for few hours to build firmware.
 - When the build is complete, you can download firmware from "Artifacts" or Github Release page.
 <br>
-![Screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/0c5a07e76c86befc7d97cd0f488ec5cc515850f5/images/openwrt-screenshot.png)
+![screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/143bd88c85c755f9811aa03e8a575ee41a505d59/images/screenshot.png)
 
 ## What are NanoPi R2S and R4S?
 | [NanoPi R2S wiki](https://wiki.friendlyarm.com/wiki/index.php/NanoPi_R2S) | [NanoPi R4S wiki](https://wiki.friendlyarm.com/wiki/index.php/NanoPi_R4S) |
