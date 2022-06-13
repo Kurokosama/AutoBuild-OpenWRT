@@ -7,7 +7,7 @@ Default login address is [192.168.1.1](192.168.1.1), username / password: `root`
 Please change the login password **as soon as possible** once you logined.
 - - -
 Firmware Screenshot: <br>
-![openwrt-screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/143bd88c85c755f9811aa03e8a575ee41a505d59/images/openwrt-screenshot.png)
+![openwrt-screenshot](https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/27848e715d3ba57727165f94cc4319f59e1f88bb/images/openwrt.png)
 
 ## Usage
 - Fork [this GitHub repository](https://github.com/Kurokosama/AutoBuild-OpenWRT).
