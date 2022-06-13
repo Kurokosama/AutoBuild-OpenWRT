@@ -2,7 +2,7 @@
 #### ⚠ WARNING: USE IT UNDER YOUR OWN RISK.
 #### ⚠ Non-profit Uses Only / 仅供个人学习使用.
 - - -
-My personal customized OpenWrt firmwares auto build and release by using Github Action. <br>
+My personal customized OpenWrt firmware auto build and release by using Github Action. <br>
 Default login address is [192.168.1.1](192.168.1.1), username / password: `root` / `password`.<br>
 Please change the login password **as soon as possible** once you logined.
 - - -
