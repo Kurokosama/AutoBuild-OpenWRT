@@ -1,10 +1,10 @@
-# OpenWrt Firmwares build by Github Action
+# OpenWrt Firmware build by Github Action
 #### ⚠ WARNING: USE IT UNDER YOUR OWN RISK.
 #### ⚠ Non-profit Uses Only / 仅供个人学习使用.
 - - -
 My personal customized OpenWrt firmware auto build and release by using Github Action. <br>
 Default login address is [192.168.1.1](192.168.1.1), username / password: `root` / `password`.<br>
-Please change the login password **as soon as possible** once you logined.
+Please change the login password **as soon as possible** once you log in.
 - - -
 Firmware Screenshot: <br>
 <img src="https://github.com/Kurokosama/AutoBuild-OpenWRT/blob/27848e715d3ba57727165f94cc4319f59e1f88bb/images/openwrt.png?raw=true" alt="OpenWrt Screenshot" width="730">
@@ -30,7 +30,7 @@ Firmware Screenshot: <br>
 [coolsnowwolf/lede](https://github.com/coolsnowwolf/lede) <br>
 [immortalwrt/immortalwrt](https://github.com/immortalwrt/immortalwrt) <br>
 
-Also thanks `eSir PlayGround`, `P3TERX` for their amazing jobs. <br>
+Also thanks to` eSir PlayGround`, `P3TERX` for their amazing jobs.  <br>
 
 <strong>Please checkout my blog site: ⭐[JW Tech Tips](https://www.jwtechtips.top/)⭐</strong><br>
 中文博客地址: [cn.jwtechtips.top](https://cn.jwtechtips.top/)
